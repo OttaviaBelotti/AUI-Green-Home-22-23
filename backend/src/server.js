@@ -2,7 +2,8 @@ const express = require('express')
 var cors = require('cors')
 const { fsmProcessState, FSM } = require('./index')
 const {dockStart} = require("@nlpjs/basic");
-const {GreenHomeComponent} = require('./utils/GreenHomeComponent')
+const {GreenHomeComponent} = require('./utils/GreenHomeComponent');
+const {queryLLM} = require('./utils/queryLLM');
 
 
 const app = express()
@@ -16,9 +17,18 @@ app.get('/', async (req, res) => {
   const nlp = dock.get('nlp')
   console.log(req.query.msg)
   const response = await nlp.process('en', req.query.msg);
-  const fsmResp= await fsmProcessState(response, fsm, nlp);
-  console.log(fsmResp)
-  res.send(fsmResp)
+  console.log(response.intent)
+  if(response.intent === 'None'){
+    console.log('None intent --> call chatgpt')
+    const gpt = new queryLLM();
+    const resp = await gpt.run(req.query.msg);
+    res.send({reply: resp, interactionEnd: true});
+  } else {
+    const fsmResp = await fsmProcessState(response, fsm, nlp);
+    console.log(fsmResp)
+
+    res.send(fsmResp)
+  }
 })
 
 app.get('/offender', async (req, res) => {

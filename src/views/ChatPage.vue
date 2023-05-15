@@ -60,10 +60,10 @@
       </div>
 
       <div class="interact">
-<!--        <input type="text" required v-model="message" v-on:keyup.enter="sendMessage"-->
-<!--               class="textInput" placeholder="Enter here your request">-->
-<!--        <button class="sendButton" @click="sendMessage">Send</button>-->
-<!--        <button class="sendButton" @click="home">Back</button>-->
+        <input type="text" required v-model="message" v-on:keyup.enter="sendMessage"
+               class="textInput" placeholder="Enter here your request">
+        <button class="sendButton" @click="sendMessage">Send</button>
+        <button class="sendButton" @click="home">Back</button>
       </div>
 
     </div>
@@ -251,7 +251,7 @@ export default {
       router.push({ name: 'Homepage'})   //use if to redirect under certain conditions
     }
 
-    startSpeechRecognition()
+    //startSpeechRecognition()
 
     return {user, messages, message, sentences, runtimeTranscription, toggle, speaking, error, recognition,SpeechRecognition,
       sendMessage, redirectOnboarding, home, endSpeechRecognition, startSpeechRecognition, checkCompatibility}
