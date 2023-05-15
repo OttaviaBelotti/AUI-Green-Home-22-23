@@ -27,7 +27,11 @@ serve dist
 ```
 
 ## Start the backend server
-In the backend directory (be sure to be in the ./backend when deploying the backend server):
+1. Create an `.env` file in the backend directory setting the api key for Openai GPT models
+```shell
+   API_KEY="key"
+ ```
+2. In the backend directory (be sure to be in the ./backend when deploying the backend server):
 ```
 node src/server.js
 ```

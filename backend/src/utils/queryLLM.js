@@ -1,12 +1,13 @@
 class queryLLM{
     constructor() {
         this.name = 'queryLLM';
+        this.api_key = process.env.API_KEY;
     }
 
     async run(input){
         const { Configuration, OpenAIApi } = require("openai");
         const configuration = new Configuration({
-            apiKey: "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",
+            apiKey: this.api_key,
         });
         const openai = new OpenAIApi(configuration);
         const response = await openai.createCompletion({
