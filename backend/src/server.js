@@ -20,7 +20,7 @@ app.get('/', async (req, res) => {
   console.log(response.intent)
   if(response.intent === 'None'){
     console.log('None intent --> call chatgpt')
-    const gpt = new queryLLM();
+    const gpt = new queryLLM('gpt'); //choose 'gpt' or 'chatgpt'
     const resp = await gpt.run(req.query.msg);
     res.send({reply: resp, interactionEnd: true});
   } else {
