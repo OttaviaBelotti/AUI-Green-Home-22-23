@@ -14,7 +14,7 @@ async function fsmProcessState(response, fsm, nlp) {
     const intent = response.intent;
     let reply;
     console.log(intent)
-    console.log(fsm.state)
+    console.log("siamo in " + fsm.state)
     switch(intent) {
         case 'device.dailyOffender':
             reply = await fsm.dispatch("getOffender", nlp)

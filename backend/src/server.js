@@ -15,20 +15,25 @@ app.use(cors())
 
 app.get('/', async (req, res) => {
   const nlp = dock.get('nlp')
+  let response;
   console.log(req.query.msg)
-  const response = await nlp.process('en', req.query.msg);
-  console.log(response.intent)
-  if(response.intent === 'None'){
-    console.log('None intent --> call chatgpt')
-    const gpt = new queryLLM('gpt'); //choose 'gpt' or 'chatgpt'
-    const resp = await gpt.run(req.query.msg);
-    res.send({reply: resp, interactionEnd: true});
-  } else {
-    const fsmResp = await fsmProcessState(response, fsm, nlp);
-    console.log(fsmResp)
-
-    res.send(fsmResp)
+  if(req.query.msg===""){
+    response= {answer:"Sorry I didn't understand :(", intent: "None" }
   }
+  else {
+    response = await nlp.process('en', req.query.msg);
+    console.log(response)
+    if (response.intent === 'None') {
+      console.log('None intent --> call chatgpt')
+      const gpt = new queryLLM('chatgpt'); //choose 'gpt' or 'chatgpt'
+      response = {answer: await gpt.run("reply in less than 30 words: "+req.query.msg), intent: "None" }
+      //res.send({reply: resp, interactionEnd: true});
+    }   }
+  const fsmResp = await fsmProcessState(response, fsm, nlp);
+  console.log(fsmResp)
+  res.send(fsmResp)
+
+
 })
 
 app.get('/offender', async (req, res) => {

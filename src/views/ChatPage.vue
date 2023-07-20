@@ -105,7 +105,7 @@ export default {
     const user = ref(username)
     const messages = ref([''])
     const message = ref('')
-    const tts = window.speechSynthesis;
+    const tts = window.speechSynthesis || window.webkitSpeechSynthesis
     const headersList = { "Access-Control-Allow-Origin": "*" }
 
     /////////////////////////////////////// Speech to text /////////////////////////////////////////////////////
